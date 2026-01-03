@@ -28,7 +28,8 @@ export const ApplyForm = () => {
   const navigate = useNavigate();
 
   const methods = useForm<ApplyFormData>({
-    resolver: zodResolver(combinedSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(combinedSchema) as any,
     mode: "onSubmit",
     reValidateMode: "onChange",
     defaultValues: { focusArea: [] },
@@ -66,8 +67,12 @@ export const ApplyForm = () => {
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
   const onSubmit = async (data: ApplyFormData) => {
+    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
+
     addApplication(data);
+
+    // Navigate back to Dashboard
     navigate("/dashboard");
   };
 
