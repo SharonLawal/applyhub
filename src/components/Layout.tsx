@@ -108,7 +108,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             color="text.secondary"
             sx={{ letterSpacing: '0.05em' }}
           >
-            © 2026 APPLYHUB — EMPOWERING CHANGE
+            © {new Date().getFullYear()} APPLYHUB — EMPOWERING CHANGE
           </Typography>
         </Container>
       </Box>
