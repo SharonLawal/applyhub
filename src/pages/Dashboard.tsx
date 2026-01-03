@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Paper, Grid, Stack } from "@mui/material";
+import { Box, Typography, Button, Paper, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { StatCard } from "../components/dashboard/StatCard";
 import { ActivityItem } from "../components/dashboard/ActivityItem";
