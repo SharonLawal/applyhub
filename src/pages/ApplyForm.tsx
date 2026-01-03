@@ -1,37 +1,63 @@
-import React, { useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Stepper, Step, StepLabel, Button, Paper, Box, CircularProgress, Typography } from '@mui/material';
-import { PersonalInfoStep, OrgDetailsStep, GrantRequestStep } from '../components/FormSteps';
-import { combinedSchema, type ApplyFormData } from '../utils/types';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Paper,
+  Box,
+  Typography,
+  Stack,
+} from "@mui/material";
+import { PersonalInfoStep } from "../components/form/PersonalInfoStep";
+import { OrgDetailsStep } from "../components/form/OrgDetailsStep";
+import { GrantRequestStep } from "../components/form/GrantRequestStep";
+import { combinedSchema, type ApplyFormData } from "../utils/types";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useNavigate } from "react-router-dom";
 
-const steps = ['Personal Info', 'Organization', 'Grant Request'];
+const steps = ["Personal", "Organization", "Grant Request"];
 
 export const ApplyForm = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState<{ref: string} | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<{ ref: string } | null>(
+    null
+  );
   const navigate = useNavigate();
 
   const methods = useForm<ApplyFormData>({
     resolver: zodResolver(combinedSchema),
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues: {
-      focusArea: []
-    }
+      focusArea: [],
+    },
   });
 
   const { trigger, handleSubmit, getValues } = methods;
 
-  // Validate current step before moving next
   const handleNext = async () => {
     let isValid = false;
     if (activeStep === 0) {
-      isValid = await trigger(['fullName', 'email', 'phone', 'country', 'role']);
+      isValid = await trigger([
+        "fullName",
+        "email",
+        "phone",
+        "country",
+        "role",
+      ]);
     } else if (activeStep === 1) {
-      isValid = await trigger(['orgName', 'orgType', 'yearFounded', 'orgDescription', 'employees']);
+      isValid = await trigger([
+        "orgName",
+        "orgType",
+        "yearFounded",
+        "orgDescription",
+        "employees",
+      ]);
     } else {
       isValid = true;
     }
@@ -45,39 +71,92 @@ export const ApplyForm = () => {
 
   const onSubmit = async (data: ApplyFormData) => {
     setIsSubmitting(true);
-    // Simulate API
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    
+
     setIsSubmitting(false);
-    const refNum = `APH-2025-${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
+    const refNum = `APH-2025-${Math.floor(Math.random() * 100000)
+      .toString()
+      .padStart(5, "0")}`;
     setSubmitSuccess({ ref: refNum });
     console.log("Form Data Submitted:", data);
   };
 
-  // Success View
   if (submitSuccess) {
     const data = getValues();
     return (
-      <Paper elevation={3} sx={{ p: 5, textAlign: 'center', mt: 4 }}>
-        <CheckCircleIcon color="success" sx={{ fontSize: 80, mb: 2 }} />
-        <Typography variant="h4" gutterBottom>Application Submitted!</Typography>
-        <Typography variant="h6" color="primary" gutterBottom>
-          Reference ID: {submitSuccess.ref}
+      <Box
+        sx={{
+          textAlign: "center",
+          animation: "fadeIn 0.8s ease-out",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0, transform: "translateY(20px)" },
+            "100%": { opacity: 1, transform: "translateY(0)" },
+          },
+        }}
+      >
+        <CheckCircleOutlineIcon sx={{ fontSize: 80, mb: 3, opacity: 0.7 }} />
+        <Typography variant="h4" sx={{ fontWeight: 300, mb: 2 }}>
+          Application Submitted
         </Typography>
-        <Typography variant="body1" sx={{ mt: 2, mb: 4 }}>
-          Thank you, {data.fullName}. We have received your request for {data.currency} {data.grantAmount} for project "{data.projectTitle}".
+        <Box
+          sx={{
+            width: 60,
+            height: 1,
+            bgcolor: "text.primary",
+            mx: "auto",
+            mb: 3,
+          }}
+        />
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 1, letterSpacing: "0.1em" }}
+        >
+          REFERENCE ID
         </Typography>
-        <Button variant="contained" onClick={() => navigate('/dashboard')}>
-          Back to Dashboard
+        <Typography variant="h6" sx={{ mb: 4, fontWeight: 400 }}>
+          {submitSuccess.ref}
+        </Typography>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ mb: 6, maxWidth: 500, mx: "auto" }}
+        >
+          Thank you, {data.fullName}. We have received your request for{" "}
+          {data.currency} {data.grantAmount} for "{data.projectTitle}".
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/dashboard")}
+          sx={{
+            bgcolor: "text.primary",
+            color: "background.default",
+            "&:hover": {
+              bgcolor: "text.primary",
+              opacity: 0.8,
+            },
+          }}
+        >
+          Return to Dashboard
         </Button>
-      </Paper>
+      </Box>
     );
   }
 
   return (
     <FormProvider {...methods}>
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Stepper activeStep={activeStep} sx={{ mb: 4 }} alternativeLabel>
+      <Paper sx={{ p: { xs: 3, md: 5 } }}>
+        <Stepper
+          activeStep={activeStep}
+          sx={{
+            mb: 6,
+            "& .MuiStepLabel-label": {
+              fontSize: "12px",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+            },
+          }}
+        >
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -86,31 +165,63 @@ export const ApplyForm = () => {
         </Stepper>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {activeStep === 0 && <PersonalInfoStep />}
-          {activeStep === 1 && <OrgDetailsStep />}
-          {activeStep === 2 && <GrantRequestStep />}
+          <Box sx={{ minHeight: "400px" }}>
+            {activeStep === 0 && <PersonalInfoStep />}
+            {activeStep === 1 && <OrgDetailsStep />}
+            {activeStep === 2 && <GrantRequestStep />}
+          </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-            <Button disabled={activeStep === 0} onClick={handleBack}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{ mt: 6, pt: 4, borderTop: 1, borderColor: "divider" }}
+          >
+            <Button
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              startIcon={<ArrowBackIcon />}
+              sx={{ visibility: activeStep === 0 ? "hidden" : "visible" }}
+            >
               Back
             </Button>
-            
+
             {activeStep === steps.length - 1 ? (
-              <Button 
-                variant="contained" 
-                color="primary" 
-                type="submit" 
+              <Button
+                variant="contained"
+                type="submit"
                 disabled={isSubmitting}
-                startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
+                sx={{
+                  bgcolor: "text.primary",
+                  color: "background.default",
+                  "&:hover": {
+                    bgcolor: "text.primary",
+                    opacity: 0.8,
+                  },
+                  "&:disabled": {
+                    opacity: 0.5,
+                  },
+                }}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                {isSubmitting ? "Submitting..." : "Submit Application"}
               </Button>
             ) : (
-              <Button variant="contained" onClick={handleNext}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                endIcon={<ArrowForwardIcon />}
+                sx={{
+                  bgcolor: "text.primary",
+                  color: "background.default",
+                  "&:hover": {
+                    bgcolor: "text.primary",
+                    opacity: 0.8,
+                  },
+                }}
+              >
                 Next
               </Button>
             )}
-          </Box>
+          </Stack>
         </form>
       </Paper>
     </FormProvider>

@@ -1,4 +1,10 @@
-import React, { createContext, useState, useMemo, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useMemo,
+  useContext,
+  useEffect,
+} from "react";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import type { PaletteMode } from "@mui/material";
 
@@ -12,16 +18,19 @@ const ColorModeContext = createContext<ThemeContextType>({
   toggleColorMode: () => {},
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useColorMode = () => useContext(ColorModeContext);
 
 export const ColorModeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [mode, setMode] = useState<PaletteMode>(() => {
+  const [mode, setMode] = useState<PaletteMode>("light");
+
+  useEffect(() => {
     const savedMode = localStorage.getItem("themeMode");
-    return (savedMode as PaletteMode) || "light";
-  });
+    if (savedMode === "dark" || savedMode === "light") {
+      setMode(savedMode);
+    }
+  }, []);
 
   const toggleColorMode = () => {
     setMode((prevMode) => {
@@ -37,31 +46,122 @@ export const ColorModeProvider: React.FC<{ children: React.ReactNode }> = ({
         palette: {
           mode,
           primary: {
-            main: "#1976d2",
+            main: mode === "light" ? "#000000" : "#ffffff",
           },
-          ...(mode === "light"
-            ? {
-                // Light Mode Values
-                background: {
-                  default: "#f4f6f8",
-                  paper: "#ffffff",
+          secondary: {
+            main: mode === "light" ? "#666666" : "#999999",
+          },
+          background: {
+            default: mode === "light" ? "#ffffff" : "#000000",
+            paper: mode === "light" ? "#fafafa" : "#0a0a0a",
+          },
+          text: {
+            primary: mode === "light" ? "#000000" : "#ffffff",
+            secondary: mode === "light" ? "#666666" : "#999999",
+          },
+        },
+        shape: {
+          borderRadius: 0,
+        },
+        typography: {
+          fontFamily:
+            '"Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+          h4: {
+            fontWeight: 300,
+            letterSpacing: "-0.02em",
+          },
+          h6: {
+            fontWeight: 400,
+            letterSpacing: "-0.01em",
+          },
+          button: {
+            textTransform: "none",
+            fontWeight: 500,
+            letterSpacing: "0.02em",
+          },
+        },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                borderRadius: 0,
+                padding: "12px 32px",
+                fontSize: "14px",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                "&:hover": {
+                  transform: "translateY(-2px)",
                 },
-                text: {
-                  primary: "#1a1a1a",
-                  secondary: "#666666",
+              },
+              contained: {
+                boxShadow: "none",
+                "&:hover": {
+                  boxShadow: "none",
                 },
-              }
-            : {
-                // Dark Mode Values
-                background: {
-                  default: "#121212",
-                  paper: "#1e1e1e",
+              },
+              outlined: {
+                borderWidth: "1px",
+              },
+            },
+          },
+          MuiTextField: {
+            styleOverrides: {
+              root: {
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 0,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateX(4px)",
+                  },
+                  "&.Mui-focused": {
+                    transform: "translateX(4px)",
+                  },
                 },
-                text: {
-                  primary: "#ffffff",
-                  secondary: "#b0b0b0",
-                },
-              }),
+              },
+            },
+          },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                borderRadius: 0,
+                boxShadow: "none",
+                border:
+                  mode === "light" ? "1px solid #e0e0e0" : "1px solid #1a1a1a",
+              },
+            },
+          },
+          MuiCard: {
+            styleOverrides: {
+              root: {
+                borderRadius: 0,
+                boxShadow: "none",
+                border:
+                  mode === "light" ? "1px solid #e0e0e0" : "1px solid #1a1a1a",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                borderRadius: 0,
+              },
+            },
+          },
+          MuiStepper: {
+            styleOverrides: {
+              root: {
+                padding: "24px 0",
+              },
+            },
+          },
+          MuiStepLabel: {
+            styleOverrides: {
+              label: {
+                fontSize: "13px",
+                letterSpacing: "0.05em",
+              },
+            },
+          },
         },
       }),
     [mode]

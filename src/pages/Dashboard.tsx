@@ -1,62 +1,113 @@
-import { Paper, Typography, Button, Box, Card, CardContent, Grid } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Typography, Button, Paper, Grid, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import { StatCard } from '../components/dashboard/StatCard';
+import { ActivityItem } from '../components/dashboard/ActivityItem';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
-
-  const getCardStyle = (lightColor: string, darkColor: string) => ({
-    bgcolor: theme.palette.mode === 'light' ? lightColor : darkColor,
-    color: theme.palette.mode === 'light' ? 'inherit' : '#fff'
-  });
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h4">Dashboard</Typography>
-        <Button 
-          variant="contained" 
-          startIcon={<AddIcon />} 
-          onClick={() => navigate('/apply')}
+      {/* Hero Section */}
+      <Box sx={{ mb: 8 }}>
+        <Typography 
+          variant="h4" 
+          sx={{ 
+            mb: 2,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            animation: 'fadeIn 0.8s ease-out',
+            '@keyframes fadeIn': {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+          }}
         >
-          New Application
-        </Button>
+          Welcome Back
+        </Typography>
+        <Stack 
+          direction="row" 
+          justifyContent="space-between" 
+          alignItems="center"
+          sx={{ 
+            animation: 'fadeIn 0.8s ease-out 0.2s both',
+          }}
+        >
+          <Typography variant="body2" color="text.secondary" sx={{ letterSpacing: '0.05em' }}>
+            Track and manage your applications
+          </Typography>
+          <Button 
+            variant="contained"
+            endIcon={<ArrowRightAltIcon />}
+            onClick={() => navigate('/apply')}
+            sx={{
+              bgcolor: 'text.primary',
+              color: 'background.default',
+              '&:hover': {
+                bgcolor: 'text.primary',
+                opacity: 0.8,
+              }
+            }}
+          >
+            New Application
+          </Button>
+        </Stack>
       </Box>
 
-      {/* Classic Grid Container */}
-      <Grid container spacing={3}>
-        {/* Classic Grid Item syntax */}
+      {/* Stats Grid */}
+      <Grid container spacing={3} sx={{ mb: 8 }}>
         <Grid item xs={12} md={4}>
-          <Card sx={getCardStyle('#e3f2fd', '#0d47a1')}>
-            <CardContent>
-              <Typography variant="h6">Total Grants</Typography>
-              <Typography variant="h3">3</Typography>
-            </CardContent>
-          </Card>
+          <StatCard label="Total Applications" value={3} delay={0.1} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Card sx={getCardStyle('#fff3e0', '#e65100')}>
-            <CardContent>
-              <Typography variant="h6">Pending Review</Typography>
-              <Typography variant="h3">1</Typography>
-            </CardContent>
-          </Card>
+          <StatCard label="Pending Review" value={1} delay={0.2} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Card sx={getCardStyle('#e8f5e9', '#1b5e20')}>
-            <CardContent>
-              <Typography variant="h6">Approved</Typography>
-              <Typography variant="h3">2</Typography>
-            </CardContent>
-          </Card>
+          <StatCard label="Approved" value={2} delay={0.3} />
         </Grid>
       </Grid>
 
-      <Paper sx={{ mt: 4, p: 3 }}>
-        <Typography variant="h6" gutterBottom>Recent Applications</Typography>
-        <Typography variant="body2" color="textSecondary">No recent activity to display for this session.</Typography>
+      {/* Recent Activity */}
+      <Paper sx={{ p: 4 }}>
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            mb: 1,
+            fontWeight: 300,
+            letterSpacing: '0.05em'
+          }}
+        >
+          Recent Activity
+        </Typography>
+        <Typography 
+          variant="caption" 
+          color="text.secondary"
+          sx={{ display: 'block', mb: 3 }}
+        >
+          Your latest submissions
+        </Typography>
+        
+        <Box>
+          <ActivityItem 
+            title="Tech Education Grant - Q1 2025"
+            date="2 days ago"
+            status="Pending"
+            delay={0.1}
+          />
+          <ActivityItem 
+            title="Community Health Initiative"
+            date="1 week ago"
+            status="Approved"
+            delay={0.2}
+          />
+          <ActivityItem 
+            title="Agricultural Development Program"
+            date="2 weeks ago"
+            status="Approved"
+            delay={0.3}
+          />
+        </Box>
       </Paper>
     </Box>
   );

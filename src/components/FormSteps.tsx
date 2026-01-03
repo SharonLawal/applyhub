@@ -5,21 +5,21 @@ import {
   MenuItem,
   FormControl,
   FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   FormGroup,
+  FormControlLabel,
   Checkbox,
   FormHelperText,
   InputAdornment,
   Button,
   Box,
   Typography,
+  Paper,
+  Chip,
+  Alert,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { africanCountries } from "../utils/schemas";
 
-// --- Step 1 Component ---
 export const PersonalInfoStep = () => {
   const {
     control,
@@ -28,54 +28,72 @@ export const PersonalInfoStep = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Typography variant="h6">Who are you?</Typography>
+      <Paper
+        sx={{ p: 2, bgcolor: "primary.light", color: "primary.contrastText" }}
+        elevation={0}
+      >
+        <Typography variant="h6" fontWeight="bold">
+          Personal Information
+        </Typography>
+        <Typography variant="body2">Tell us about yourself</Typography>
+      </Paper>
 
       <Controller
         name="fullName"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
             label="Full Name"
+            placeholder="Enter your full name"
             error={!!errors.fullName}
             helperText={errors.fullName?.message as string}
             fullWidth
           />
         )}
       />
-      <Box sx={{ display: "flex", gap: 2 }}>
+
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Controller
           name="email"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
-              label="Email"
+              label="Email Address"
+              placeholder="your.email@example.com"
               error={!!errors.email}
               helperText={errors.email?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             />
           )}
         />
         <Controller
           name="phone"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               label="Phone Number"
+              placeholder="+234 123 456 7890"
               error={!!errors.phone}
               helperText={errors.phone?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             />
           )}
         />
       </Box>
 
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Controller
           name="country"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
@@ -84,7 +102,9 @@ export const PersonalInfoStep = () => {
               error={!!errors.country}
               helperText={errors.country?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             >
+              <MenuItem value="">Select a country</MenuItem>
               {africanCountries.map((c) => (
                 <MenuItem key={c} value={c}>
                   {c}
@@ -96,15 +116,18 @@ export const PersonalInfoStep = () => {
         <Controller
           name="role"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               select
-              label="Role"
+              label="Your Role"
               error={!!errors.role}
               helperText={errors.role?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             >
+              <MenuItem value="">Select your role</MenuItem>
               {[
                 "Founder",
                 "Executive Director",
@@ -123,7 +146,6 @@ export const PersonalInfoStep = () => {
   );
 };
 
-// --- Step 2 Component ---
 export const OrgDetailsStep = () => {
   const {
     control,
@@ -134,15 +156,25 @@ export const OrgDetailsStep = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Typography variant="h6">Tell us about your organization</Typography>
+      <Paper
+        sx={{ p: 2, bgcolor: "primary.light", color: "primary.contrastText" }}
+        elevation={0}
+      >
+        <Typography variant="h6" fontWeight="bold">
+          Organization Details
+        </Typography>
+        <Typography variant="body2">Tell us about your organization</Typography>
+      </Paper>
 
       <Controller
         name="orgName"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
             label="Organization Name"
+            placeholder="Your organization's name"
             error={!!errors.orgName}
             helperText={errors.orgName?.message as string}
             fullWidth
@@ -150,19 +182,22 @@ export const OrgDetailsStep = () => {
         )}
       />
 
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Controller
           name="orgType"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               select
-              label="Type"
+              label="Organization Type"
               error={!!errors.orgType}
               helperText={errors.orgType?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             >
+              <MenuItem value="">Select type</MenuItem>
               {["Startup", "NGO", "Social Enterprise", "Non-Profit"].map(
                 (t) => (
                   <MenuItem key={t} value={t}>
@@ -176,39 +211,51 @@ export const OrgDetailsStep = () => {
         <Controller
           name="employees"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               type="number"
-              label="Employees"
+              label="Number of Employees"
               error={!!errors.employees}
               helperText={errors.employees?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "250px" }}
             />
           )}
         />
       </Box>
 
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Controller
           name="yearFounded"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               type="number"
               label="Year Founded"
+              placeholder="2020"
               error={!!errors.yearFounded}
               helperText={errors.yearFounded?.message as string}
               fullWidth
+              sx={{ flex: 1, minWidth: "200px" }}
             />
           )}
         />
         <Controller
           name="regNumber"
           control={control}
+          defaultValue=""
           render={({ field }) => (
-            <TextField {...field} label="Reg Number (Optional)" fullWidth />
+            <TextField
+              {...field}
+              label="Registration Number"
+              placeholder="Optional"
+              fullWidth
+              sx={{ flex: 1, minWidth: "200px" }}
+            />
           )}
         />
       </Box>
@@ -216,10 +263,12 @@ export const OrgDetailsStep = () => {
       <Controller
         name="website"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
-            label="Website (Optional)"
+            label="Website"
+            placeholder="https://yourorganization.org (optional)"
             error={!!errors.website}
             helperText={errors.website?.message as string}
             fullWidth
@@ -230,16 +279,21 @@ export const OrgDetailsStep = () => {
       <Controller
         name="orgDescription"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
             multiline
             rows={4}
             label="Organization Description"
+            placeholder="Describe your organization's mission and activities..."
             error={!!errors.orgDescription}
-            helperText={`${descValue.length}/500 characters. ${
-              errors.orgDescription?.message || ""
-            }`}
+            helperText={
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <span>{errors.orgDescription?.message as string}</span>
+                <span>{descValue.length}/500</span>
+              </Box>
+            }
             fullWidth
           />
         )}
@@ -248,7 +302,6 @@ export const OrgDetailsStep = () => {
   );
 };
 
-// --- Step 3 Component ---
 export const GrantRequestStep = () => {
   const {
     control,
@@ -258,6 +311,7 @@ export const GrantRequestStep = () => {
   } = useFormContext();
   const descValue = watch("projectDescription") || "";
   const fileName = watch("fileName");
+  const focusArea = watch("focusArea") || [];
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -267,15 +321,29 @@ export const GrantRequestStep = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Typography variant="h6">Project Details</Typography>
+      <Paper
+        sx={{ p: 2, bgcolor: "primary.light", color: "primary.contrastText" }}
+        elevation={0}
+      >
+        <Typography variant="h6" fontWeight="bold">
+          Grant Request Details
+        </Typography>
+        <Typography variant="body2">Tell us about your project</Typography>
+      </Paper>
+
+      <Alert severity="info" sx={{ borderRadius: 2 }}>
+        Please provide detailed information about your project and funding needs
+      </Alert>
 
       <Controller
         name="projectTitle"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
             label="Project Title"
+            placeholder="A descriptive title for your project"
             error={!!errors.projectTitle}
             helperText={errors.projectTitle?.message as string}
             fullWidth
@@ -283,16 +351,17 @@ export const GrantRequestStep = () => {
         )}
       />
 
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Controller
           name="currency"
           control={control}
+          defaultValue="USD"
           render={({ field }) => (
             <TextField
               {...field}
               select
               label="Currency"
-              sx={{ width: 120 }}
+              sx={{ width: 140 }}
               error={!!errors.currency}
               helperText={errors.currency?.message as string}
             >
@@ -307,11 +376,13 @@ export const GrantRequestStep = () => {
         <Controller
           name="grantAmount"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
               type="number"
               label="Amount Requested"
+              placeholder="50000"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">$</InputAdornment>
@@ -320,6 +391,7 @@ export const GrantRequestStep = () => {
               error={!!errors.grantAmount}
               helperText={errors.grantAmount?.message as string}
               fullWidth
+              sx={{ flex: 1 }}
             />
           )}
         />
@@ -328,16 +400,21 @@ export const GrantRequestStep = () => {
       <Controller
         name="projectDescription"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
             multiline
-            rows={4}
+            rows={5}
             label="Project Description"
+            placeholder="Describe your project goals, impact, and implementation plan..."
             error={!!errors.projectDescription}
-            helperText={`${descValue.length}/1000 characters. ${
-              errors.projectDescription?.message || ""
-            }`}
+            helperText={
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <span>{errors.projectDescription?.message as string}</span>
+                <span>{descValue.length}/1000</span>
+              </Box>
+            }
             fullWidth
           />
         )}
@@ -346,6 +423,7 @@ export const GrantRequestStep = () => {
       <Controller
         name="duration"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
@@ -355,6 +433,7 @@ export const GrantRequestStep = () => {
             helperText={errors.duration?.message as string}
             fullWidth
           >
+            <MenuItem value="">Select duration</MenuItem>
             {[
               "3 months",
               "6 months",
@@ -371,13 +450,15 @@ export const GrantRequestStep = () => {
       />
 
       <FormControl error={!!errors.focusArea} component="fieldset">
-        <FormLabel component="legend">Focus Area</FormLabel>
+        <FormLabel component="legend" sx={{ mb: 1, fontWeight: "bold" }}>
+          Focus Areas (Select at least one)
+        </FormLabel>
         <Controller
           name="focusArea"
           control={control}
           defaultValue={[]}
           render={({ field }) => (
-            <FormGroup row>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
               {[
                 "Education",
                 "Healthcare",
@@ -386,44 +467,41 @@ export const GrantRequestStep = () => {
                 "Climate",
                 "Financial Inclusion",
               ].map((area) => (
-                <FormControlLabel
+                <Chip
                   key={area}
-                  control={
-                    <Checkbox
-                      checked={field.value.includes(area)}
-                      onChange={(e) => {
-                        if (e.target.checked)
-                          field.onChange([...field.value, area]);
-                        else
-                          field.onChange(
-                            field.value.filter((val: string) => val !== area)
-                          );
-                      }}
-                    />
-                  }
                   label={area}
+                  onClick={() => {
+                    if (field.value.includes(area)) {
+                      field.onChange(
+                        field.value.filter((val: string) => val !== area)
+                      );
+                    } else {
+                      field.onChange([...field.value, area]);
+                    }
+                  }}
+                  color={field.value.includes(area) ? "primary" : "default"}
+                  variant={field.value.includes(area) ? "filled" : "outlined"}
+                  sx={{ cursor: "pointer" }}
                 />
               ))}
-            </FormGroup>
+            </Box>
           )}
         />
         <FormHelperText>{errors.focusArea?.message as string}</FormHelperText>
       </FormControl>
 
-      <Box
-        sx={{
-          border: "1px dashed #ccc",
-          p: 3,
-          borderRadius: 1,
-          textAlign: "center",
-        }}
+      <Paper
+        variant="outlined"
+        sx={{ p: 3, textAlign: "center", borderStyle: "dashed" }}
       >
         <Button
           component="label"
           variant="outlined"
+          size="large"
           startIcon={<CloudUploadIcon />}
+          sx={{ mb: fileName ? 2 : 0 }}
         >
-          Upload Proposal (PDF/DOC)
+          Upload Supporting Document
           <input
             type="file"
             hidden
@@ -432,11 +510,21 @@ export const GrantRequestStep = () => {
           />
         </Button>
         {fileName && (
-          <Typography variant="body2" sx={{ mt: 1, color: "green" }}>
-            Selected: {fileName}
-          </Typography>
+          <Chip
+            label={fileName}
+            color="success"
+            onDelete={() => setValue("fileName", "")}
+          />
         )}
-      </Box>
+        <Typography
+          variant="caption"
+          display="block"
+          sx={{ mt: 1 }}
+          color="text.secondary"
+        >
+          Accepted formats: PDF, DOC, DOCX (Max 10MB)
+        </Typography>
+      </Paper>
     </Box>
   );
 };
