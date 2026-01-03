@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Stepper, Step, StepLabel, Button, Paper, Box, CircularProgress, Typography, Alert } from '@mui/material';
+import { Stepper, Step, StepLabel, Button, Paper, Box, CircularProgress, Typography } from '@mui/material';
 import { PersonalInfoStep, OrgDetailsStep, GrantRequestStep } from '../components/FormSteps';
-import { step1Schema, step2Schema, step3Schema } from '../utils/schemas';
-import { combinedSchema, FormData } from '../utils/types';
+import { combinedSchema, type ApplyFormData } from '../utils/types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +15,7 @@ export const ApplyForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState<{ref: string} | null>(null);
   const navigate = useNavigate();
 
-  const methods = useForm<FormData>({
+  const methods = useForm<ApplyFormData>({
     resolver: zodResolver(combinedSchema),
     mode: 'onBlur',
     defaultValues: {
@@ -44,7 +43,7 @@ export const ApplyForm = () => {
 
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ApplyFormData) => {
     setIsSubmitting(true);
     // Simulate API
     await new Promise((resolve) => setTimeout(resolve, 2000));

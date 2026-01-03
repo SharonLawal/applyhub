@@ -3,7 +3,7 @@ import { step1Schema, step2Schema, step3Schema } from "./schemas";
 
 export const combinedSchema = step1Schema.merge(step2Schema).merge(step3Schema);
 
-export type FormData = z.infer<typeof combinedSchema>;
+export type ApplyFormData = z.infer<typeof combinedSchema>;
 
 export type ApplicationStatus = 'Pending' | 'Approved' | 'Rejected';
 
