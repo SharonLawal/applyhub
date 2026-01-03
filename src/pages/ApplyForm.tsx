@@ -8,7 +8,6 @@ import {
   Button,
   Paper,
   Box,
-  Typography,
   Stack,
   CircularProgress,
 } from "@mui/material";
@@ -16,105 +15,74 @@ import { PersonalInfoStep } from "../components/form/PersonalInfoStep";
 import { OrgDetailsStep } from "../components/form/OrgDetailsStep";
 import { GrantRequestStep } from "../components/form/GrantRequestStep";
 import { combinedSchema, type ApplyFormData } from "../utils/types";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useApplications } from "../context/ApplicationContext";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useNavigate } from "react-router-dom";
-import { useApplications } from "../context/ApplicationContext";
 
-const steps = ["Personal", "Organization", "Grant Request"];
+const steps = ["Personal Info", "Organization", "Grant Request"];
 
 export const ApplyForm = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState<{ ref: string } | null>(
-    null
-  );
-  const navigate = useNavigate();
   const { addApplication } = useApplications();
+  const navigate = useNavigate();
 
   const methods = useForm<ApplyFormData>({
     resolver: zodResolver(combinedSchema),
     mode: "onSubmit",
     reValidateMode: "onChange",
-    defaultValues: {
-      focusArea: [],
-    },
+    defaultValues: { focusArea: [] },
   });
 
-  const { trigger, handleSubmit, getValues } = methods;
-
+  const {
+    trigger,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const handleNext = async () => {
-    let isValid = false;
+    let fieldsToValidate: (keyof ApplyFormData)[] = [];
 
     if (activeStep === 0) {
-      isValid = await trigger([
-        "fullName",
-        "email",
-        "phone",
-        "country",
-        "role",
-      ]);
+      fieldsToValidate = ["fullName", "email", "phone", "country", "role"];
     } else if (activeStep === 1) {
-      isValid = await trigger([
+      fieldsToValidate = [
         "orgName",
         "orgType",
         "yearFounded",
         "orgDescription",
         "employees",
-      ]);
-    } else {
-      isValid = true;
+      ];
     }
 
-    if (isValid) {
-      setActiveStep((prev) => prev + 1);
+    let isValid = true;
+    if (fieldsToValidate.length > 0) {
+      isValid = await trigger(fieldsToValidate);
     }
+
+    if (isValid) setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
   const onSubmit = async (data: ApplyFormData) => {
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     addApplication(data);
-
-    setIsSubmitting(false);
-    const refNum = `APH-2025-${Math.floor(Math.random() * 100000)
-      .toString()
-      .padStart(5, "0")}`;
-    setSubmitSuccess({ ref: refNum });
+    navigate("/dashboard");
   };
-
-  if (submitSuccess) {
-    const data = getValues();
-    return (
-      <Box sx={{ textAlign: "center", py: 5 }}>
-        <CheckCircleOutlineIcon
-          sx={{ fontSize: 80, mb: 3, color: "success.main" }}
-        />
-        <Typography variant="h4" sx={{ fontWeight: 300, mb: 2 }}>
-          Application Submitted
-        </Typography>
-        <Typography variant="h6" sx={{ mb: 4 }}>
-          {submitSuccess.ref}
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 6 }}>
-          Thank you, {data.fullName}.
-        </Typography>
-        <Button variant="contained" onClick={() => navigate("/dashboard")}>
-          Return to Dashboard
-        </Button>
-      </Box>
-    );
-  }
 
   return (
     <FormProvider {...methods}>
-      <Paper sx={{ p: { xs: 3, md: 5 } }}>
-        <Stepper activeStep={activeStep} sx={{ mb: 6 }} alternativeLabel>
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 2, md: 5 },
+          borderRadius: 2,
+          border: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Stepper activeStep={activeStep} sx={{ mb: 5 }} alternativeLabel>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -132,13 +100,13 @@ export const ApplyForm = () => {
           <Stack
             direction="row"
             justifyContent="space-between"
-            sx={{ mt: 6, pt: 4, borderTop: 1, borderColor: "divider" }}
+            sx={{ mt: 5, pt: 3, borderTop: 1, borderColor: "divider" }}
           >
             <Button
               disabled={activeStep === 0}
               onClick={handleBack}
               startIcon={<ArrowBackIcon />}
-              sx={{ visibility: activeStep === 0 ? "hidden" : "visible" }}
+              color="inherit"
             >
               Back
             </Button>
@@ -147,6 +115,7 @@ export const ApplyForm = () => {
               <Button
                 variant="contained"
                 type="submit"
+                size="large"
                 disabled={isSubmitting}
                 startIcon={
                   isSubmitting && <CircularProgress size={20} color="inherit" />
@@ -160,7 +129,7 @@ export const ApplyForm = () => {
                 onClick={handleNext}
                 endIcon={<ArrowForwardIcon />}
               >
-                Next
+                Next Step
               </Button>
             )}
           </Stack>

@@ -7,7 +7,7 @@ import { useApplications } from "../context/ApplicationContext";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { stats, applications } = useApplications(); 
+  const { stats, applications } = useApplications();
 
   return (
     <Box>
@@ -39,23 +39,21 @@ export const Dashboard = () => {
         </Button>
       </Box>
 
-      {/* Stats Grid */}
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <StatCard
             label="Total Applications"
             value={stats.total}
             delay={0.1}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <StatCard label="Pending Review" value={stats.pending} delay={0.2} />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <StatCard
             label="Approved Grants"
             value={stats.approved}
-            ZS
             delay={0.3}
           />
         </Grid>
