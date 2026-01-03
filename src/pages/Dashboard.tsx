@@ -1,112 +1,91 @@
-import { Box, Typography, Button, Paper, Grid, Stack } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { StatCard } from '../components/dashboard/StatCard';
-import { ActivityItem } from '../components/dashboard/ActivityItem';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { Box, Typography, Button, Paper, Grid, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { StatCard } from "../components/dashboard/StatCard";
+import { ActivityItem } from "../components/dashboard/ActivityItem";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useApplications } from "../context/ApplicationContext";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
+  const { stats, applications } = useApplications(); 
 
   return (
     <Box>
       {/* Hero Section */}
-      <Box sx={{ mb: 8 }}>
-        <Typography 
-          variant="h4" 
-          sx={{ 
-            mb: 2,
-            fontWeight: 300,
-            letterSpacing: '-0.02em',
-            animation: 'fadeIn 0.8s ease-out',
-            '@keyframes fadeIn': {
-              '0%': { opacity: 0, transform: 'translateY(20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' },
-            },
-          }}
-        >
-          Welcome Back
-        </Typography>
-        <Stack 
-          direction="row" 
-          justifyContent="space-between" 
-          alignItems="center"
-          sx={{ 
-            animation: 'fadeIn 0.8s ease-out 0.2s both',
-          }}
-        >
-          <Typography variant="body2" color="text.secondary" sx={{ letterSpacing: '0.05em' }}>
-            Track and manage your applications
+      <Box
+        sx={{
+          mb: 6,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+        }}
+      >
+        <Box>
+          <Typography variant="h4" sx={{ mb: 1, color: "text.primary" }}>
+            Overview
           </Typography>
-          <Button 
-            variant="contained"
-            endIcon={<ArrowRightAltIcon />}
-            onClick={() => navigate('/apply')}
-            sx={{
-              bgcolor: 'text.primary',
-              color: 'background.default',
-              '&:hover': {
-                bgcolor: 'text.primary',
-                opacity: 0.8,
-              }
-            }}
-          >
-            New Application
-          </Button>
-        </Stack>
+          <Typography variant="body1" color="text.secondary">
+            Welcome back to your grant dashboard
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          size="large"
+          endIcon={<ArrowRightAltIcon />}
+          onClick={() => navigate("/apply")}
+          sx={{ px: 4 }}
+        >
+          New Application
+        </Button>
       </Box>
 
       {/* Stats Grid */}
-      <Grid container spacing={3} sx={{ mb: 8 }}>
+      <Grid container spacing={3} sx={{ mb: 6 }}>
         <Grid item xs={12} md={4}>
-          <StatCard label="Total Applications" value={3} delay={0.1} />
+          <StatCard
+            label="Total Applications"
+            value={stats.total}
+            delay={0.1}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <StatCard label="Pending Review" value={1} delay={0.2} />
+          <StatCard label="Pending Review" value={stats.pending} delay={0.2} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <StatCard label="Approved" value={2} delay={0.3} />
+          <StatCard
+            label="Approved Grants"
+            value={stats.approved}
+            ZS
+            delay={0.3}
+          />
         </Grid>
       </Grid>
 
       {/* Recent Activity */}
-      <Paper sx={{ p: 4 }}>
-        <Typography 
-          variant="h6" 
-          sx={{ 
-            mb: 1,
-            fontWeight: 300,
-            letterSpacing: '0.05em'
-          }}
-        >
+      <Paper sx={{ p: 4, borderRadius: 2 }}>
+        <Typography variant="h6" sx={{ mb: 3 }}>
           Recent Activity
         </Typography>
-        <Typography 
-          variant="caption" 
-          color="text.secondary"
-          sx={{ display: 'block', mb: 3 }}
-        >
-          Your latest submissions
-        </Typography>
-        
-        <Box>
-          <ActivityItem 
-            title="Tech Education Grant - Q1 2025"
-            date="2 days ago"
-            status="Pending"
-            delay={0.1}
-          />
-          <ActivityItem 
-            title="Community Health Initiative"
-            date="1 week ago"
-            status="Approved"
-            delay={0.2}
-          />
-          <ActivityItem 
-            title="Agricultural Development Program"
-            date="2 weeks ago"
-            status="Approved"
-            delay={0.3}
-          />
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {applications.length > 0 ? (
+            applications.map((app, index) => (
+              <ActivityItem
+                key={app.id}
+                title={app.projectName}
+                date={app.date}
+                status={app.status}
+                delay={0.1 * index}
+              />
+            ))
+          ) : (
+            <Typography
+              color="text.secondary"
+              sx={{ py: 4, textAlign: "center" }}
+            >
+              No applications yet. Start by creating one!
+            </Typography>
+          )}
         </Box>
       </Paper>
     </Box>
