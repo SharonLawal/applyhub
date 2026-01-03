@@ -1,3 +1,15 @@
+/**
+ * FormSection Component
+ * * A layout wrapper component used to group related form fields together
+ * with a consistent title and subtitle styling.
+ * * @component
+ * @example
+ * <FormSection title="Personal Info" subtitle="Tell us about yourself">
+ * <FormField name="fullName" label="Full Name" />
+ * <FormField name="email" label="Email" />
+ * </FormSection>
+ */
+
 import { Box, Typography, Divider } from "@mui/material";
 
 interface FormSectionProps {

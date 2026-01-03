@@ -1,3 +1,10 @@
+/**
+ * Application Context
+ * * Manages the global state of grant applications.
+ * Provides the list of applications, stats (total, pending, approved),
+ * and a method to add new applications to the list.
+ */
+
 import React, { createContext, useContext, useState,  } from "react";
 import type { ReactNode } from "react";
 import type { ApplyFormData, Application } from "../utils/types";

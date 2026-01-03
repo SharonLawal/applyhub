@@ -1,3 +1,15 @@
+/**
+ * Layout Component
+ * * The main application wrapper that provides the structural framework.
+ * It contains the AppBar (Navigation), Theme Toggle, and the main Container.
+ * It also handles the "Login" page state to hide the navigation bar.
+ * * @component
+ * @example
+ * <Layout>
+ * <Outlet />
+ * </Layout>
+ */
+
 import React from 'react';
 import { Box, Container, IconButton, Typography, Stack } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';

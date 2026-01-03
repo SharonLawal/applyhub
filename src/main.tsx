@@ -1,3 +1,10 @@
+/**
+ * Main Entry Point
+ * * Initializes the React application.
+ * Sets up the ThemeProvider with Material UI overrides.
+ * Mounts the App component to the DOM.
+ */
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";

@@ -1,3 +1,11 @@
+/**
+ * App Component
+ * * The root component of the application.
+ * It wraps the router with necessary Context Providers:
+ * 1. ColorModeProvider (Theme)
+ * 2. ApplicationProvider (Data)
+ */
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Login } from "./pages/Login";

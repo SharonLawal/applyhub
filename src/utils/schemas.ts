@@ -1,3 +1,11 @@
+/**
+ * Zod Schemas
+ * * Defines the validation rules for each step of the application form.
+ * * - step1Schema: Personal Information (Name, Email, Phone, etc.)
+ * - step2Schema: Organization Details (Name, Type, Website, etc.)
+ * - step3Schema: Grant Request (Amount, Project Title, Focus Area, etc.)
+ */
+
 import { z } from "zod";
 
 const currentYear = new Date().getFullYear();

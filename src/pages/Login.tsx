@@ -1,3 +1,10 @@
+/**
+ * Login Page
+ * * The entry point of the application.
+ * Displays a branded landing screen with a "Enter Demo" button.
+ * Uses custom CSS animations for the entrance effect.
+ */
+
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';

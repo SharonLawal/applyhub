@@ -1,3 +1,21 @@
+/**
+ * FormField Component
+ * * A reusable wrapper around Material UI's TextField that integrates seamlessly
+ * with React Hook Form. It suppresses the default ugly error text and replaces
+ * it with a custom, animated error display using a Zoom transition and icon.
+ * * @component
+ * @example
+ * // Usage within a FormProvider
+ * <FormField 
+ * name="email"
+ * label="Email Address"
+ * placeholder="john@example.com"
+ * type="email"
+ * fullWidth
+ * />
+ * * @param {TextFieldProps} props - Standard MUI TextField props plus 'name' (implied by Controller)
+ */
+
 import React from "react";
 import { TextField, Box, Typography, Zoom } from "@mui/material";
 import type { TextFieldProps } from "@mui/material";

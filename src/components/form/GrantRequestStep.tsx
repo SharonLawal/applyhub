@@ -1,3 +1,11 @@
+/**
+ * GrantRequestStep Component
+ * * Step 3 (Final) of the application form.
+ * Captures grant specifics: Title, Amount, Description, Focus Area, Documents.
+ * * Usage:
+ * Rendered conditionally within <ApplyForm /> based on activeStep.
+ */
+
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import {

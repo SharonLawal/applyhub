@@ -1,3 +1,11 @@
+/**
+ * OrgDetailsStep Component
+ * * Step 2 of the application form.
+ * Captures organization metadata: Name, Type, Year Founded, Employees, etc.
+ * * Usage:
+ * Rendered conditionally within <ApplyForm /> based on activeStep.
+ */
+
 import { useFormContext, Controller } from "react-hook-form";
 import { Box, MenuItem } from "@mui/material";
 import { FormSection } from "./FormSection";

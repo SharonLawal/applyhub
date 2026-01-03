@@ -1,3 +1,10 @@
+/**
+ * Dashboard Page
+ * * Displays the overview of the user's grant applications.
+ * Consumes the ApplicationContext to show real-time statistics
+ * and a list of recent activities.
+ */
+
 import { Box, Typography, Button, Paper, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { StatCard } from "../components/dashboard/StatCard";

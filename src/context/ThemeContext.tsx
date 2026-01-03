@@ -1,3 +1,13 @@
+/**
+ * Theme Context & Provider
+ * * Manages the application's color mode (Light/Dark).
+ * * Features:
+ * - Persists user preference to localStorage.
+ * - customized Material UI theme configuration (Palette, Typography, Components).
+ * * Usage:
+ * const { mode, toggleColorMode } = useColorMode();
+ */
+
 import React, {
   createContext,
   useState,

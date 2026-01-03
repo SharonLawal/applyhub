@@ -1,3 +1,17 @@
+/**
+ * ActivityItem Component
+ * * A row item displayed in the dashboard's "Recent Activity" list.
+ * Shows status chips (Pending, Approved) with color coding.
+ * * @component
+ * @example
+ * <ActivityItem
+ * title="Tech Grant"
+ * date="2 days ago"
+ * status="Pending"
+ * delay={0.1}
+ * />
+ */
+
 import { Box, Typography, Chip } from "@mui/material";
 
 interface ActivityItemProps {

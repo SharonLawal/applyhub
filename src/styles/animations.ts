@@ -1,3 +1,10 @@
+/**
+ * Animation Variants (Framer Motion)
+ * * Reusable animation objects for Framer Motion components.
+ * * Usage:
+ * <motion.div variants={fadeIn} initial="initial" animate="animate">
+ */
+
 export const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },

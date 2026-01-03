@@ -1,3 +1,11 @@
+/**
+ * PersonalInfoStep Component
+ * * Step 1 of the application form.
+ * Captures user identity details: Name, Email, Phone, Country, Role.
+ * * Usage:
+ * Rendered conditionally within <ApplyForm /> based on activeStep.
+ */
+
 import { useFormContext, Controller } from "react-hook-form";
 import { Box, MenuItem } from "@mui/material";
 import { FormSection } from "./FormSection";

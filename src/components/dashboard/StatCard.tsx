@@ -1,3 +1,16 @@
+/**
+ * StatCard Component
+ * * Displays a single key metric (statistic) in a card format.
+ * Includes a fade-in animation that can be staggered using the delay prop.
+ * * @component
+ * @example
+ * <StatCard 
+ * label="Total Revenue" 
+ * value="$50,000" 
+ * delay={0.2} 
+ * />
+ */
+
 import { Card, CardContent, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 

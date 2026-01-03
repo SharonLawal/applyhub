@@ -1,3 +1,22 @@
+/**
+ * FormSteps Module
+ * * Contains the individual step components for the multi-step Grant Application Form.
+ * * Exports:
+ * - PersonalInfoStep: Step 1 - Captures personal identity (Name, Email, Role).
+ * - OrgDetailsStep: Step 2 - Captures organization metadata (Name, Type, Year).
+ * - GrantRequestStep: Step 3 - Captures project details, funding needs, and file uploads.
+ * * * Usage:
+ * These components are designed to be used within the <ApplyForm /> parent component.
+ * They rely on `useFormContext` from `react-hook-form`, so they MUST be wrapped 
+ * inside a <FormProvider>.
+ * * @example
+ * <FormProvider {...methods}>
+ * {activeStep === 0 && <PersonalInfoStep />}
+ * {activeStep === 1 && <OrgDetailsStep />}
+ * {activeStep === 2 && <GrantRequestStep />}
+ * </FormProvider>
+ */
+
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import {

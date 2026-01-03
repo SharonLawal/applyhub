@@ -1,3 +1,14 @@
+/**
+ * ApplyForm Page
+ * * The main multi-step wizard for submitting a new grant application.
+ * Manages the form state using React Hook Form and Zod validation.
+ * * Features:
+ * - 3-Step Wizard (Personal, Organization, Grant)
+ * - Step-by-step validation (users cannot proceed without valid data)
+ * - "Attractive" error handling (errors show on Next/Submit, clear on type)
+ * - Submission simulation with success state
+ */
+
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
